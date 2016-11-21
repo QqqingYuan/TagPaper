@@ -37,4 +37,3 @@ def  getEmbedding_Label():
 
     return words,embeddings
 
-
