@@ -19,6 +19,15 @@ def get_corpus_topic_distribution(topics_corpus, num_topic):
 
 
 corpus,dic,labels = load_data.load_corpus()
+
+"""
+# TF-IDF
+tfidf = gensim.models.TfidfModel(corpus=corpus,dictionary=dic)
+corpus_tfidf = tfidf[corpus]
+# LDA
+lda_model = gensim.models.LdaModel(corpus_tfidf,num_topics=3,id2word=dic)
+"""
+
 lda_model = gensim.models.LdaModel(corpus,num_topics=3,id2word=dic)
 
 doc_topics = []
