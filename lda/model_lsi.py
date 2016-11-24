@@ -14,7 +14,10 @@ def get_corpus_topic_distribution(topics_corpus, num_topic):
     count = 0
     for line in topics_corpus:
         row = np.asarray([pair[1] for pair in line],dtype=np.float32)
-        matrix[count] = row
+        try:
+            matrix[count] = row
+        except ValueError:
+            print(count)
         count += 1
     return matrix
 
@@ -26,15 +29,16 @@ tfidf = gensim.models.TfidfModel(corpus=corpus,dictionary=dic)
 corpus_tfidf = tfidf[corpus]
 
 # LSI
-lsi_model = gensim.models.LsiModel(corpus_tfidf,num_topics=3,id2word=dic)
+lsi_model = gensim.models.LsiModel(corpus_tfidf,num_topics=4,id2word=dic)
 
 doc_topics = []
 for doc in corpus_tfidf:
     doc_topics.append(lsi_model[doc])
 
-doc_topics_matrix = get_corpus_topic_distribution(doc_topics,num_topic=3)
+doc_topics_matrix = get_corpus_topic_distribution(doc_topics,num_topic=4)
 train_data,train_label,test_data,test_label = load_data.get_train_test(doc_topics_matrix,labels)
-print(train_data.shape)
+print("train size: "+str(train_data.shape[0]))
+print("test size: "+str(test_data.shape[0]))
 
 # SVM classification
 # clf = SVC()
@@ -42,8 +46,5 @@ clf = LinearSVC()
 clf.fit(train_data,train_label)
 score = clf.score(test_data,test_label)
 print(score)
-
-
-
 
 

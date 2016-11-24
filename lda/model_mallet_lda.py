@@ -28,7 +28,7 @@ corpus_tfidf = tfidf[corpus]
 lda_model = gensim.models.LdaModel(corpus_tfidf,num_topics=4,id2word=dic)
 """
 
-lda_model = gensim.models.LdaModel(corpus,num_topics=4,id2word=dic)
+lda_model = gensim.models.wrappers.LdaMallet('F:/mallet-2.0.8/bin/mallet.bat',corpus=corpus,num_topics=4,id2word=dic)
 
 doc_topics = []
 for doc in corpus:

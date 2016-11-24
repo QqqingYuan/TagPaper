@@ -8,7 +8,7 @@ import redis
 import numpy as np
 from collections import defaultdict
 from word2vec import model_util
-from sklearn.svm import SVC,LinearSVC
+from sklearn.metrics import recall_score,accuracy_score,f1_score
 
 word_embedding_size = model_util.word_embedding_size
 
@@ -51,20 +51,36 @@ def get_dic_embeddings(words_dic):
 corpus,dic,labels = load_data.load_corpus()
 # TF-IDF
 tfidf = gensim.models.TfidfModel(corpus=corpus,dictionary=dic)
-# corpus_tfidf = [tfidf[doc] for doc in corpus]
 corpus_tfidf = tfidf[corpus]
 corpus_top = get_tfidf_top(corpus_tfidf,top_number=10)
 
-dic_embeddings = get_dic_embeddings(dic)
-doc_embeddings = model_util.get_doc_embeddings(corpus_top,dic_embeddings)
-train_data,train_label,test_data,test_label = load_data.get_train_test(doc_embeddings,labels)
-print("train size: "+str(train_data.shape[0]))
-print("test size: "+str(test_data.shape[0]))
 
-clf = LinearSVC()
-clf.fit(train_data,train_label)
-score = clf.score(test_data,test_label)
-print(score)
+dic_embeddings = get_dic_embeddings(dic)
+
+doc_embeddings = model_util.get_average_doc_embeddings(corpus_top,dic_embeddings)
+
+# shuffle data
+shuffle_indices = np.random.permutation(np.arange(len(corpus_top)))
+labels_shuffled = labels[shuffle_indices]
+doc_embeddings_shuffled = doc_embeddings[shuffle_indices]
+
+# centers
+four_class_centers = ['建筑','机械','计算机']
+centers = model_util.get_center_embeddings(four_class_centers)
+# four_class_centers = model_util.read_centers('centroids.npy')
+# centers = [four_class_centers[3],four_class_centers[0],four_class_centers[1],four_class_centers[2]]
+
+# predict
+pred_labels = model_util.clustering_pred(doc_embeddings_shuffled,centers=centers)
+# compute accuracy
+acc = accuracy_score(labels_shuffled,pred_labels)
+recall = recall_score(labels_shuffled,pred_labels,average='macro')
+f1 = f1_score(labels_shuffled,pred_labels,average='macro')
+print(acc)
+print(recall)
+print(f1)
+
+
 
 
 
