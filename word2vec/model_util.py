@@ -4,7 +4,7 @@ __author__ = 'PC-LiNing'
 
 import numpy as np
 import redis
-
+from lda import load_data
 
 word_embedding_size = 200
 
@@ -85,3 +85,13 @@ def get_center_embeddings(words):
 def read_centers(file):
     centers = np.load(file)
     return centers
+
+
+def load_text_label():
+    texts_1 = load_data.load_texts('F:/PycharmProjects/TagPaper/lda/建筑kw.txt')
+    texts_2 = load_data.load_texts('F:/PycharmProjects/TagPaper/lda/机械kw.txt')
+    texts_3 = load_data.load_texts('F:/PycharmProjects/TagPaper/lda/计算机kw.txt')
+    tag_list = [0]*len(texts_1) + [1]*len(texts_2) + [2]*len(texts_3)
+    texts = texts_1 + texts_2 + texts_3
+    return texts, tag_list
+

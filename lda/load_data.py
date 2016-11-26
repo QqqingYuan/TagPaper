@@ -23,10 +23,10 @@ def load_texts(file):
 
 
 def load_corpus():
-    texts_1 = load_texts('F:/PycharmProjects/TagPaper/lda/建筑kw.txt')
+    texts_1 = load_texts('F:/PycharmProjects/TagPaper/lda/建筑.txt')
     # texts_2 = load_texts('F:/PycharmProjects/TagPaper/lda/心理kw.txt')
-    texts_3 = load_texts('F:/PycharmProjects/TagPaper/lda/机械kw.txt')
-    texts_4 = load_texts('F:/PycharmProjects/TagPaper/lda/计算机kw.txt')
+    texts_3 = load_texts('F:/PycharmProjects/TagPaper/lda/机械.txt')
+    texts_4 = load_texts('F:/PycharmProjects/TagPaper/lda/计算机.txt')
     tag_list = [0]*len(texts_1) + [1]*len(texts_3) + [2]*len(texts_4)
     texts = texts_1 + texts_3 + texts_4
     """
