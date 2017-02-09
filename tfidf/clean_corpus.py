@@ -12,7 +12,8 @@ import datetime
 
 def filter_single_word(file):
     # line total
-    total = 13924390
+    # total = 13924390
+    total = 14862090
     f = open(file)
     output = codecs.open("all_single_word.txt","a",encoding='utf-8')
     frequency = defaultdict(int)
@@ -48,7 +49,8 @@ def filter_single_word(file):
 
 def reduce_frequency(file):
     # line total
-    total = 13924390
+    # total = 13924390
+    total = 14862090
     f = open(file)
     output = codecs.open("all_reduce_frequency.txt","a",encoding='utf-8')
     fre = open("fre_dict","rb")
@@ -75,5 +77,5 @@ def reduce_frequency(file):
     output.close()
 
 # clean corpus
-filter_single_word('all.txt')
+filter_single_word('all_seg.txt')
 reduce_frequency("all_single_word.txt")

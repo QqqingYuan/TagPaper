@@ -20,6 +20,8 @@ def get_corpus_topic_distribution(topics_corpus, num_topic):
 
 corpus,dic,labels = load_data.load_corpus()
 
+num_topic = 3
+
 """
 # TF-IDF
 tfidf = gensim.models.TfidfModel(corpus=corpus,dictionary=dic)
@@ -28,13 +30,13 @@ corpus_tfidf = tfidf[corpus]
 lda_model = gensim.models.LdaModel(corpus_tfidf,num_topics=4,id2word=dic)
 """
 
-lda_model = gensim.models.LdaModel(corpus,num_topics=4,id2word=dic)
+lda_model = gensim.models.LdaModel(corpus,num_topics=num_topic,id2word=dic)
 
 doc_topics = []
 for doc in corpus:
     doc_topics.append(lda_model.get_document_topics(doc,minimum_probability=0))
 
-doc_topics_matrix = get_corpus_topic_distribution(doc_topics,num_topic=4)
+doc_topics_matrix = get_corpus_topic_distribution(doc_topics,num_topic=num_topic)
 train_data,train_label,test_data,test_label = load_data.get_train_test(doc_topics_matrix,labels)
 print("train size: "+str(train_data.shape[0]))
 print("test size: "+str(test_data.shape[0]))

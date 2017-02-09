@@ -17,18 +17,18 @@ def filter(sentence, frequency):
     # length limit
     if len(sentence) == 1:
         return False
-    if len(sentence) > 10 and frequency < 10 :
+    if len(sentence) > 5 or frequency < 10:
         return False
-    if frequency < 5 :
-        filtrate = re.compile(u'[^\u4E00-\u9FA5]')
-        filtered_str = filtrate.sub(r'', sentence)
-        if len(filtered_str) != len(sentence):
-            return False
+    filtrate = re.compile(u'[^\u4E00-\u9FA5]')
+    filtered_str = filtrate.sub(r'', sentence)
+    if len(filtered_str) != len(sentence):
+        return False
+
     return True
 
 
-f = codecs.open("keywordrank.txt",encoding='utf-8')
-output = codecs.open("keywords.txt","a",encoding='utf-8')
+f = codecs.open("add_words",encoding='utf-8')
+output = codecs.open("select_words.txt","a",encoding='utf-8')
 error = codecs.open("error.txt","a",encoding='utf-8')
 excep = codecs.open("excep.txt","a",encoding='utf-8')
 count = 0
